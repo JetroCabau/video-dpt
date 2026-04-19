@@ -8,6 +8,7 @@ import { FullBleedText } from "@/remotion/FullBleedText";
 import { SplitLayout } from "@/remotion/SplitLayout";
 import { TextReveal } from "@/remotion/TextReveal";
 import { LogoStinger } from "@/remotion/LogoStinger";
+import { TaglineStinger } from "@/remotion/TaglineStinger";
 import type { ComponentType } from "react";
 
 const COMPOSITIONS: {
@@ -76,6 +77,14 @@ const COMPOSITIONS: {
     name: "LogoStinger",
     description: "Xebia logo animated intro with optional tagline",
     component: LogoStinger as unknown as ComponentType<Record<string, unknown>>,
+    durationInFrames: 150,
+    fps: 30,
+    propDefs: [],
+  },
+  {
+    name: "TaglineStinger",
+    description: "Shaping Tomorrow with AI Today — gradient animated text",
+    component: TaglineStinger as unknown as ComponentType<Record<string, unknown>>,
     durationInFrames: 150,
     fps: 30,
     propDefs: [],

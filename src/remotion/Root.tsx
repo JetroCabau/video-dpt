@@ -6,6 +6,7 @@ import { FullBleedText } from "./compositions/FullBleedText";
 import { SplitLayout } from "./compositions/SplitLayout";
 import { TextReveal } from "./compositions/TextReveal";
 import { LogoStinger } from "./compositions/LogoStinger";
+import { TaglineStinger } from "./compositions/TaglineStinger";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -58,6 +59,15 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="LogoStinger"
         component={LogoStinger}
+        durationInFrames={150}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{}}
+      />
+      <Composition
+        id="TaglineStinger"
+        component={TaglineStinger}
         durationInFrames={150}
         fps={30}
         width={1920}

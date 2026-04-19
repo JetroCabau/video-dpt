@@ -1,17 +1,18 @@
 "use client";
 import React from "react";
-import { AbsoluteFill, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Audio, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { useTheme } from "../lib/themeContext";
 
 interface Props {}
 
-const PART1 = "Shaping Tomorrow ";
+const PART1 = "Shaping Tomorrow";
+const SPACE = " ";
 const PART2 = "with AI Today";
-const TOTAL = PART1.length + PART2.length;
+const TOTAL = PART1.length + SPACE.length + PART2.length;
 const START = 15;
 const SPEED = 3;
 
-const GRADIENT = "linear-gradient(90deg, #008BF7 0%, #5C31CE 25%, #D9029C 50%, #F40642 75%, #008BF7 100%)";
+const GRADIENT = "linear-gradient(90deg, #008BF7 0%, #5C31CE 20%, #D9029C 40%, #F40642 60%, #F79D00 80%, #008BF7 100%)";
 
 export const TaglineStinger: React.FC<Props> = () => {
   const { colors, typography } = useTheme();
@@ -22,7 +23,8 @@ export const TaglineStinger: React.FC<Props> = () => {
 
   const charsToShow = Math.min(Math.floor(Math.max(0, frame - START) / SPEED), TOTAL);
   const part1Shown = Math.min(charsToShow, PART1.length);
-  const part2Shown = Math.max(0, charsToShow - PART1.length);
+  const spaceShown = charsToShow > PART1.length ? 1 : 0;
+  const part2Shown = Math.max(0, charsToShow - PART1.length - SPACE.length);
 
   const isDone = charsToShow >= TOTAL;
   const cursorVisible = !isDone || Math.floor(frame / 15) % 2 === 0;
@@ -35,6 +37,7 @@ export const TaglineStinger: React.FC<Props> = () => {
     lineHeight: typography.lineHeight.heading,
     fontFamily: typography.family,
     fontWeight: typography.weight.regular,
+    whiteSpace: "pre",
   };
 
   return (
@@ -52,9 +55,15 @@ export const TaglineStinger: React.FC<Props> = () => {
         pointerEvents: "none",
       }} />
 
+      {Array.from({ length: TOTAL }, (_, i) => (
+        <Sequence key={i} from={START + i * SPEED} durationInFrames={SPEED + 3}>
+          <Audio src={staticFile("keyboard-click.mp3")} volume={0.6} />
+        </Sequence>
+      ))}
+
       <div style={{ display: "flex", alignItems: "baseline" }}>
         <span style={{ ...textStyle, color: colors.text.inverse }}>
-          {PART1.slice(0, part1Shown)}
+          {PART1.slice(0, part1Shown)}{spaceShown ? SPACE : ""}
         </span>
 
         {part2Shown > 0 && (
@@ -77,9 +86,7 @@ export const TaglineStinger: React.FC<Props> = () => {
             ...textStyle,
             color: isDone ? colors.text.velvetLightSubtle : colors.text.inverse,
             marginLeft: 2,
-          }}>
-            |
-          </span>
+          }}>|</span>
         )}
       </div>
     </AbsoluteFill>

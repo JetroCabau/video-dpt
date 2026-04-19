@@ -1,17 +1,18 @@
 import React from "react";
-import { AbsoluteFill, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Audio, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { colors, typography } from "../theme";
 
 interface Props extends Record<string, unknown> {}
 
-const PART1 = "Shaping Tomorrow ";
+const PART1 = "Shaping Tomorrow";
+const SPACE = " ";
 const PART2 = "with AI Today";
-const TOTAL = PART1.length + PART2.length;
-const START = 15; // delay before typing begins
-const SPEED = 3;  // frames per character
+const TOTAL = PART1.length + SPACE.length + PART2.length;
+const START = 15;
+const SPEED = 3; // frames per character
 
-// 4-colour gradient (no yellow), seamlessly tileable
-const GRADIENT = "linear-gradient(90deg, #008BF7 0%, #5C31CE 25%, #D9029C 50%, #F40642 75%, #008BF7 100%)";
+// 5-colour gradient with yellow, seamlessly tileable
+const GRADIENT = "linear-gradient(90deg, #008BF7 0%, #5C31CE 20%, #D9029C 40%, #F40642 60%, #F79D00 80%, #008BF7 100%)";
 
 export const TaglineStinger: React.FC<Props> = () => {
   const frame = useCurrentFrame();
@@ -20,13 +21,15 @@ export const TaglineStinger: React.FC<Props> = () => {
   const glowP = spring({ frame: Math.max(0, frame - 3), fps, config: { damping: 20, stiffness: 80, mass: 1 } });
 
   const charsToShow = Math.min(Math.floor(Math.max(0, frame - START) / SPEED), TOTAL);
+
+  // Split visibility across the three segments
   const part1Shown = Math.min(charsToShow, PART1.length);
-  const part2Shown = Math.max(0, charsToShow - PART1.length);
+  const spaceShown = charsToShow > PART1.length ? 1 : 0;
+  const part2Shown = Math.max(0, charsToShow - PART1.length - SPACE.length);
 
   const isDone = charsToShow >= TOTAL;
   const cursorVisible = !isDone || Math.floor(frame / 15) % 2 === 0;
 
-  // Gradient scrolls at 20%/s — seamless loop since start === end colour
   const gradientX = -((frame / fps) * 20) % 100;
 
   const textStyle: React.CSSProperties = {
@@ -35,6 +38,7 @@ export const TaglineStinger: React.FC<Props> = () => {
     lineHeight: typography.lineHeight.heading,
     fontFamily: typography.family,
     fontWeight: typography.weight.regular,
+    whiteSpace: "pre",
   };
 
   return (
@@ -52,9 +56,16 @@ export const TaglineStinger: React.FC<Props> = () => {
         pointerEvents: "none",
       }} />
 
+      {/* Keyboard click per character */}
+      {Array.from({ length: TOTAL }, (_, i) => (
+        <Sequence key={i} from={START + i * SPEED} durationInFrames={SPEED + 3}>
+          <Audio src={staticFile("keyboard-click.mp3")} volume={0.6} />
+        </Sequence>
+      ))}
+
       <div style={{ display: "flex", alignItems: "baseline" }}>
         <span style={{ ...textStyle, color: colors.text.inverse }}>
-          {PART1.slice(0, part1Shown)}
+          {PART1.slice(0, part1Shown)}{spaceShown ? SPACE : ""}
         </span>
 
         {part2Shown > 0 && (
@@ -77,9 +88,7 @@ export const TaglineStinger: React.FC<Props> = () => {
             ...textStyle,
             color: isDone ? colors.text.velvetLightSubtle : colors.text.inverse,
             marginLeft: 2,
-          }}>
-            |
-          </span>
+          }}>|</span>
         )}
       </div>
     </AbsoluteFill>

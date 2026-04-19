@@ -1,11 +1,11 @@
 import React from "react";
-import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Easing, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { colors } from "../theme";
 
 interface Props extends Record<string, unknown> {}
 
-const LOGO_W = 576;
-const LOGO_H = 192;
+const LOGO_W = 480;
+const LOGO_H = 160;
 
 export const LogoStinger: React.FC<Props> = () => {
   const frame = useCurrentFrame();
@@ -13,10 +13,15 @@ export const LogoStinger: React.FC<Props> = () => {
 
   const glowP = spring({ frame: Math.max(0, frame - 5), fps, config: { damping: 20, stiffness: 80, mass: 1 } });
 
-  // Elegant fade-in with very subtle scale
-  const fadeP = spring({ frame, fps, config: { damping: 40, stiffness: 60, mass: 1.2 } });
-  const opacity = interpolate(fadeP, [0, 1], [0, 1]);
-  const scale = interpolate(fadeP, [0, 1], [0.96, 1]);
+  // Smooth cubic ease-out fade over ~1.7s
+  const opacity = interpolate(frame, [0, 50], [0, 1], {
+    extrapolateRight: "clamp",
+    easing: Easing.out(Easing.cubic),
+  });
+  const scale = interpolate(frame, [0, 50], [0.97, 1], {
+    extrapolateRight: "clamp",
+    easing: Easing.out(Easing.cubic),
+  });
 
   return (
     <AbsoluteFill style={{

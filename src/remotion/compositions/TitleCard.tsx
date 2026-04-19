@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { colors, typography, spacing } from "../theme";
 
 interface Props extends Record<string, unknown> {
@@ -9,21 +9,45 @@ interface Props extends Record<string, unknown> {
 
 export const TitleCard: React.FC<Props> = ({ text, subtitle }) => {
   const frame = useCurrentFrame();
-  const opacity = interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" });
+  const { fps } = useVideoConfig();
+
+  // Accent bar draws in first
+  const accentP = spring({ frame, fps, config: { damping: 16, stiffness: 140, mass: 0.5 } });
+  const accentW = interpolate(accentP, [0, 1], [0, 200]);
+
+  // Title mask reveal
+  const titleH = typography.heading["6xl"].size * typography.lineHeight.heading;
+  const titleP = spring({ frame: Math.max(0, frame - 10), fps, config: { damping: 20, stiffness: 160, mass: 0.6 } });
+  const titleTY = interpolate(titleP, [0, 1], [titleH, 0]);
+
+  // Subtitle mask reveal
+  const subH = typography.heading["4xl"].size * typography.lineHeight.heading;
+  const subP = spring({ frame: Math.max(0, frame - 30), fps, config: { damping: 20, stiffness: 160, mass: 0.6 } });
+  const subTY = interpolate(subP, [0, 1], [subH, 0]);
 
   return (
-    <AbsoluteFill
-      style={{
-        backgroundColor: colors.background.blueDark,
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        gap: spacing["4xl"],
-        opacity,
-      }}
-    >
-      <h1
-        style={{
+    <AbsoluteFill style={{
+      backgroundColor: colors.background.blueDark,
+      justifyContent: "center",
+      alignItems: "flex-start",
+      flexDirection: "column",
+      paddingLeft: spacing["9xl"],
+      paddingRight: spacing["9xl"],
+    }}>
+      {/* Gradient accent bar */}
+      <div style={{
+        width: accentW,
+        height: 3,
+        background: `linear-gradient(to right, ${colors.divider[1]}, ${colors.divider[3]})`,
+        marginBottom: spacing["3xl"],
+        borderRadius: spacing.xs,
+      }} />
+
+      {/* Title */}
+      <div style={{ overflow: "hidden", height: titleH }}>
+        <h1 style={{
+          display: "block",
+          transform: `translateY(${titleTY}px)`,
           color: colors.text.inverse,
           fontSize: typography.heading["6xl"].size,
           letterSpacing: typography.heading["6xl"].letterSpacing,
@@ -31,13 +55,15 @@ export const TitleCard: React.FC<Props> = ({ text, subtitle }) => {
           fontFamily: typography.family,
           fontWeight: typography.weight.medium,
           margin: 0,
-        }}
-      >
-        {text}
-      </h1>
+        }}>{text}</h1>
+      </div>
+
+      {/* Subtitle */}
       {subtitle && (
-        <p
-          style={{
+        <div style={{ overflow: "hidden", height: subH, marginTop: spacing["2xl"] }}>
+          <p style={{
+            display: "block",
+            transform: `translateY(${subTY}px)`,
             color: colors.text.velvetLightSubtle,
             fontSize: typography.heading["4xl"].size,
             letterSpacing: typography.heading["4xl"].letterSpacing,
@@ -45,10 +71,8 @@ export const TitleCard: React.FC<Props> = ({ text, subtitle }) => {
             fontFamily: typography.family,
             fontWeight: typography.weight.regular,
             margin: 0,
-          }}
-        >
-          {subtitle}
-        </p>
+          }}>{subtitle}</p>
+        </div>
       )}
     </AbsoluteFill>
   );

@@ -5,6 +5,7 @@ import { TextOverlay } from "./compositions/TextOverlay";
 import { FullBleedText } from "./compositions/FullBleedText";
 import { SplitLayout } from "./compositions/SplitLayout";
 import { TextReveal } from "./compositions/TextReveal";
+import { LogoStinger } from "./compositions/LogoStinger";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -53,6 +54,15 @@ export const RemotionRoot: React.FC = () => {
         width={1920}
         height={1080}
         defaultProps={{ text: "Knowledge|that matters", subtitle: "Xebia · 2025" }}
+      />
+      <Composition
+        id="LogoStinger"
+        component={LogoStinger}
+        durationInFrames={150}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{ tagline: "A global knowledge exchange" }}
       />
     </>
   );

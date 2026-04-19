@@ -7,6 +7,7 @@ import { TextOverlay } from "@/remotion/TextOverlay";
 import { FullBleedText } from "@/remotion/FullBleedText";
 import { SplitLayout } from "@/remotion/SplitLayout";
 import { TextReveal } from "@/remotion/TextReveal";
+import { LogoStinger } from "@/remotion/LogoStinger";
 import type { ComponentType } from "react";
 
 const COMPOSITIONS: {
@@ -69,6 +70,16 @@ const COMPOSITIONS: {
     propDefs: [
       { key: "text",     type: "string", placeholder: "Lines separated by |", default: "Knowledge|that matters" },
       { key: "subtitle", type: "string", placeholder: "Subtitle (optional)",   default: "Xebia · 2025"          },
+    ],
+  },
+  {
+    name: "LogoStinger",
+    description: "Xebia logo animated intro with optional tagline",
+    component: LogoStinger as unknown as ComponentType<Record<string, unknown>>,
+    durationInFrames: 150,
+    fps: 30,
+    propDefs: [
+      { key: "tagline", type: "string", placeholder: "Tagline (optional)", default: "A global knowledge exchange" },
     ],
   },
 ];

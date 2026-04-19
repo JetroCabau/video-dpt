@@ -1,0 +1,11 @@
+{
+  "topic": "The Future of Renewable Energy",
+  "style": "documentary, calm narration, data-driven",
+  "durationSeconds": 60,
+  "outputPath": "output/renewable-energy.mp4",
+  "fps": 30,
+  "resolution": {
+    "width": 1920,
+    "height": 1080
+  }
+}

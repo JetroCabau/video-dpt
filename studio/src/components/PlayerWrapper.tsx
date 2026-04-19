@@ -35,6 +35,7 @@ export function PlayerWrapper({ component, inputProps, durationInFrames, fps }: 
       controls
       loop
       clickToPlay
+      numberOfSharedAudioTags={4}
     />
   );
 }

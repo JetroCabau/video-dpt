@@ -1,5 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { colors, typography, spacing } from "../theme";
 
 interface Props extends Record<string, unknown> {
   text: string;
@@ -13,17 +14,20 @@ export const FullBleedText: React.FC<Props> = ({ text }) => {
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: "#fff",
+        backgroundColor: colors.background.primary,
         justifyContent: "center",
         alignItems: "center",
-        padding: 120,
+        padding: spacing["9xl"],
       }}
     >
       <p
         style={{
-          color: "#111",
-          fontSize: 72,
-          fontFamily: "sans-serif",
+          color: colors.text.primary,
+          fontSize: typography.heading["5xl"].size,
+          letterSpacing: typography.heading["5xl"].letterSpacing,
+          lineHeight: typography.lineHeight.heading,
+          fontFamily: typography.family,
+          fontWeight: typography.weight.regular,
           textAlign: "center",
           transform: `scale(${scale})`,
           opacity,

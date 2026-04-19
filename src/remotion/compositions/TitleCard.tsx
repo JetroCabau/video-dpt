@@ -1,5 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { colors, typography, spacing } from "../theme";
 
 interface Props extends Record<string, unknown> {
   text: string;
@@ -13,17 +14,41 @@ export const TitleCard: React.FC<Props> = ({ text, subtitle }) => {
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: "#0a0a0a",
+        backgroundColor: colors.background.blueDark,
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        gap: 24,
+        gap: spacing["4xl"],
         opacity,
       }}
     >
-      <h1 style={{ color: "#fff", fontSize: 96, fontFamily: "sans-serif", margin: 0 }}>{text}</h1>
+      <h1
+        style={{
+          color: colors.text.inverse,
+          fontSize: typography.heading["6xl"].size,
+          letterSpacing: typography.heading["6xl"].letterSpacing,
+          lineHeight: typography.lineHeight.heading,
+          fontFamily: typography.family,
+          fontWeight: typography.weight.medium,
+          margin: 0,
+        }}
+      >
+        {text}
+      </h1>
       {subtitle && (
-        <p style={{ color: "#aaa", fontSize: 48, fontFamily: "sans-serif", margin: 0 }}>{subtitle}</p>
+        <p
+          style={{
+            color: colors.text.velvetLightSubtle,
+            fontSize: typography.heading["4xl"].size,
+            letterSpacing: typography.heading["4xl"].letterSpacing,
+            lineHeight: typography.lineHeight.heading,
+            fontFamily: typography.family,
+            fontWeight: typography.weight.regular,
+            margin: 0,
+          }}
+        >
+          {subtitle}
+        </p>
       )}
     </AbsoluteFill>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { colors, typography, spacing } from "../theme";
 
 interface Props extends Record<string, unknown> {
   left: string;
@@ -15,26 +16,52 @@ export const SplitLayout: React.FC<Props> = ({ left, right }) => {
       <div
         style={{
           flex: 1,
-          backgroundColor: "#1a1a2e",
+          backgroundColor: colors.background.velvet,
           justifyContent: "center",
           alignItems: "center",
           display: "flex",
-          padding: 60,
+          padding: spacing["6xl"],
         }}
       >
-        <p style={{ color: "#fff", fontSize: 52, fontFamily: "sans-serif", textAlign: "center" }}>{left}</p>
+        <p
+          style={{
+            color: colors.text.onAccent,
+            fontSize: typography.heading["4xl"].size,
+            letterSpacing: typography.heading["4xl"].letterSpacing,
+            lineHeight: typography.lineHeight.heading,
+            fontFamily: typography.family,
+            fontWeight: typography.weight.medium,
+            textAlign: "center",
+            margin: 0,
+          }}
+        >
+          {left}
+        </p>
       </div>
       <div
         style={{
           flex: 1,
-          backgroundColor: "#16213e",
+          backgroundColor: colors.background.blueDark,
           justifyContent: "center",
           alignItems: "center",
           display: "flex",
-          padding: 60,
+          padding: spacing["6xl"],
         }}
       >
-        <p style={{ color: "#e0e0e0", fontSize: 40, fontFamily: "sans-serif", textAlign: "center" }}>{right}</p>
+        <p
+          style={{
+            color: colors.text.velvetLightSubtle,
+            fontSize: typography.heading["3xl"].size,
+            letterSpacing: typography.heading["3xl"].letterSpacing,
+            lineHeight: typography.lineHeight.heading,
+            fontFamily: typography.family,
+            fontWeight: typography.weight.regular,
+            textAlign: "center",
+            margin: 0,
+          }}
+        >
+          {right}
+        </p>
       </div>
     </AbsoluteFill>
   );

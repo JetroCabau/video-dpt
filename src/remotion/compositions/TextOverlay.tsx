@@ -1,5 +1,6 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
+import { colors, typography, spacing } from "../theme";
 
 interface Props extends Record<string, unknown> {
   text: string;
@@ -14,15 +15,39 @@ export const TextOverlay: React.FC<Props> = ({ text, subtitle }) => {
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: "#111",
+        backgroundColor: colors.background.velvetDark,
         justifyContent: "flex-end",
-        padding: 80,
+        padding: spacing["8xl"],
       }}
     >
       <div style={{ transform: `translateY(${translateY}px)`, opacity }}>
-        <p style={{ color: "#fff", fontSize: 64, fontFamily: "sans-serif", margin: 0 }}>{text}</p>
+        <p
+          style={{
+            color: colors.text.inverse,
+            fontSize: typography.heading["5xl"].size,
+            letterSpacing: typography.heading["5xl"].letterSpacing,
+            lineHeight: typography.lineHeight.heading,
+            fontFamily: typography.family,
+            fontWeight: typography.weight.medium,
+            margin: 0,
+          }}
+        >
+          {text}
+        </p>
         {subtitle && (
-          <p style={{ color: "#ccc", fontSize: 36, fontFamily: "sans-serif", marginTop: 16 }}>{subtitle}</p>
+          <p
+            style={{
+              color: colors.text.velvetLightSubtle,
+              fontSize: typography.heading["3xl"].size,
+              letterSpacing: typography.heading["3xl"].letterSpacing,
+              lineHeight: typography.lineHeight.heading,
+              fontFamily: typography.family,
+              fontWeight: typography.weight.regular,
+              marginTop: spacing["3xl"],
+            }}
+          >
+            {subtitle}
+          </p>
         )}
       </div>
     </AbsoluteFill>

@@ -6,6 +6,7 @@ import { TitleCard } from "@/remotion/TitleCard";
 import { TextOverlay } from "@/remotion/TextOverlay";
 import { FullBleedText } from "@/remotion/FullBleedText";
 import { SplitLayout } from "@/remotion/SplitLayout";
+import { TextReveal } from "@/remotion/TextReveal";
 import type { ComponentType } from "react";
 
 const COMPOSITIONS: {
@@ -57,6 +58,17 @@ const COMPOSITIONS: {
     propDefs: [
       { key: "left",  type: "string", placeholder: "Left panel",  default: "The Challenge" },
       { key: "right", type: "string", placeholder: "Right panel", default: "The Solution"  },
+    ],
+  },
+  {
+    name: "TextReveal",
+    description: "Masked line-by-line reveal with spring physics",
+    component: TextReveal as unknown as ComponentType<Record<string, unknown>>,
+    durationInFrames: 120,
+    fps: 30,
+    propDefs: [
+      { key: "text",     type: "string", placeholder: "Lines separated by |", default: "Knowledge|that matters" },
+      { key: "subtitle", type: "string", placeholder: "Subtitle (optional)",   default: "Xebia · 2025"          },
     ],
   },
 ];

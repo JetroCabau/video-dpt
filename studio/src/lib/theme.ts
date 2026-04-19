@@ -77,7 +77,8 @@ export const colors = {
 };
 
 export const typography = {
-  family: "Suisse Int'l, sans-serif",
+  // Suisse Int'l (Xebia brand) → falls back to Inter loaded via next/font/google
+  family: "Suisse Int'l, Inter, sans-serif",
   weight: { regular: 400, medium: 500 },
   lineHeight: { heading: 1.05, body: 1.4 },
   heading: {

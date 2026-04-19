@@ -4,6 +4,7 @@ import { TitleCard } from "./compositions/TitleCard";
 import { TextOverlay } from "./compositions/TextOverlay";
 import { FullBleedText } from "./compositions/FullBleedText";
 import { SplitLayout } from "./compositions/SplitLayout";
+import { TextReveal } from "./compositions/TextReveal";
 
 export const RemotionRoot: React.FC = () => {
   return (
@@ -43,6 +44,15 @@ export const RemotionRoot: React.FC = () => {
         width={1920}
         height={1080}
         defaultProps={{ left: "", right: "" }}
+      />
+      <Composition
+        id="TextReveal"
+        component={TextReveal}
+        durationInFrames={120}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{ text: "Knowledge|that matters", subtitle: "Xebia · 2025" }}
       />
     </>
   );

@@ -78,9 +78,7 @@ const COMPOSITIONS: {
     component: LogoStinger as unknown as ComponentType<Record<string, unknown>>,
     durationInFrames: 150,
     fps: 30,
-    propDefs: [
-      { key: "tagline", type: "string", placeholder: "Tagline (optional)", default: "A global knowledge exchange" },
-    ],
+    propDefs: [],
   },
 ];
 

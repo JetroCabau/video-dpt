@@ -4,3 +4,8 @@ output/
 .env
 *.js.map
 .mcp.json
+
+# Next.js
+studio/.next/
+studio/node_modules/
+studio/tsconfig.tsbuildinfo

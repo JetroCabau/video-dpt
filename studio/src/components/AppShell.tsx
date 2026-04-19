@@ -85,7 +85,7 @@ const COMPOSITIONS: {
     name: "TaglineStinger",
     description: "Shaping Tomorrow with AI Today — gradient animated text",
     component: TaglineStinger as unknown as ComponentType<Record<string, unknown>>,
-    durationInFrames: 150,
+    durationInFrames: 240,
     fps: 30,
     propDefs: [],
   },

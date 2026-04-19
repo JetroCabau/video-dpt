@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { AbsoluteFill, Audio, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Audio, Easing, interpolate, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import { useTheme } from "../lib/themeContext";
 
 interface Props {}
@@ -9,8 +9,12 @@ const PART1 = "Shaping Tomorrow";
 const SPACE = " ";
 const PART2 = "with AI Today";
 const TOTAL = PART1.length + SPACE.length + PART2.length;
-const START = 15;
-const SPEED = 3;
+
+const START      = 15;
+const SPEED      = 3;
+const TYPING_END = START + TOTAL * SPEED;  // 105
+const HOLD_END   = TYPING_END + 90;        // 195
+const FADE_END   = HOLD_END + 30;          // 225
 
 const GRADIENT = "linear-gradient(90deg, #008BF7 0%, #5C31CE 20%, #D9029C 40%, #F40642 60%, #F79D00 80%, #008BF7 100%)";
 
@@ -19,7 +23,10 @@ export const TaglineStinger: React.FC<Props> = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const glowP = spring({ frame: Math.max(0, frame - 3), fps, config: { damping: 20, stiffness: 80, mass: 1 } });
+  const glowIn  = interpolate(frame, [0, 80], [0, 1], { extrapolateRight: "clamp", easing: Easing.out(Easing.cubic) });
+  const fadeOut = interpolate(frame, [HOLD_END, FADE_END], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  const glowOpacity = glowIn * fadeOut;
+  const contentOpacity = fadeOut;
 
   const charsToShow = Math.min(Math.floor(Math.max(0, frame - START) / SPEED), TOTAL);
   const part1Shown = Math.min(charsToShow, PART1.length);
@@ -51,7 +58,7 @@ export const TaglineStinger: React.FC<Props> = () => {
         width: 900, height: 900,
         borderRadius: "50%",
         background: "radial-gradient(circle, rgba(131,27,132,0.18) 0%, rgba(80,0,81,0.08) 45%, transparent 70%)",
-        transform: `scale(${glowP})`,
+        opacity: glowOpacity,
         pointerEvents: "none",
       }} />
 
@@ -61,7 +68,7 @@ export const TaglineStinger: React.FC<Props> = () => {
         </Sequence>
       ))}
 
-      <div style={{ display: "flex", alignItems: "baseline" }}>
+      <div style={{ display: "flex", alignItems: "baseline", opacity: contentOpacity }}>
         <span style={{ ...textStyle, color: colors.text.inverse }}>
           {PART1.slice(0, part1Shown)}{spaceShown ? SPACE : ""}
         </span>
@@ -81,7 +88,7 @@ export const TaglineStinger: React.FC<Props> = () => {
           </span>
         )}
 
-        {cursorVisible && (
+        {cursorVisible && frame < HOLD_END && (
           <span style={{
             ...textStyle,
             color: isDone ? colors.text.velvetLightSubtle : colors.text.inverse,

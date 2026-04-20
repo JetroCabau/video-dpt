@@ -5,16 +5,18 @@ import { useTheme } from "../lib/themeContext";
 
 interface Props {}
 
-const PART1 = "Shaping Tomorrow";
-const SPACE = " ";
-const PART2 = "with AI Today™";
-const TOTAL = PART1.length + SPACE.length + PART2.length;
+const PART1       = "Shaping Tomorrow";
+const SPACE       = " ";
+const PART2_BASE  = "with AI Today";
+const TM          = "™";
+const PART2       = PART2_BASE + TM;
+const TOTAL       = PART1.length + SPACE.length + PART2.length;
 
 const START      = 15;
-const SPEED      = 3;
-const TYPING_END = START + TOTAL * SPEED;  // 105
-const HOLD_END   = TYPING_END + 90;        // 195
-const FADE_END   = HOLD_END + 30;          // 225
+const SPEED      = 2;
+const TYPING_END = START + TOTAL * SPEED;
+const HOLD_END   = TYPING_END + 90;
+const FADE_END   = HOLD_END + 30;
 
 const GRADIENT = "linear-gradient(90deg, #008BF7 0%, #5C31CE 20%, #D9029C 40%, #F40642 60%, #F79D00 80%, #008BF7 100%)";
 
@@ -33,10 +35,7 @@ export const TaglineStinger: React.FC<Props> = () => {
   const spaceShown = charsToShow > PART1.length ? 1 : 0;
   const part2Shown = Math.max(0, charsToShow - PART1.length - SPACE.length);
 
-  const isDone = charsToShow >= TOTAL;
-  const cursorVisible = !isDone || Math.floor(frame / 15) % 2 === 0;
-
-  const gradientX = -((frame / fps) * 20) % 100;
+  const gradientX = -((frame / fps) * 20);
 
   const textStyle: React.CSSProperties = {
     fontSize: typography.heading["3xl"].size,
@@ -84,16 +83,14 @@ export const TaglineStinger: React.FC<Props> = () => {
             WebkitTextFillColor: "transparent",
             color: "transparent",
           }}>
-            {PART2.slice(0, part2Shown)}
+            {PART2_BASE.slice(0, Math.min(part2Shown, PART2_BASE.length))}
           </span>
         )}
 
-        {cursorVisible && frame < HOLD_END && (
-          <span style={{
-            ...textStyle,
-            color: isDone ? colors.text.velvetLightSubtle : colors.text.inverse,
-            marginLeft: 2,
-          }}>|</span>
+        {part2Shown > PART2_BASE.length && (
+          <span style={{ ...textStyle, color: colors.text.inverse }}>
+            {TM}
+          </span>
         )}
       </div>
     </AbsoluteFill>

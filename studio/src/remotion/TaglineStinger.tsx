@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
-import { AbsoluteFill, Audio, Easing, interpolate, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
+import { AbsoluteFill, Audio, Easing, interpolate, Sequence, useCurrentFrame, useVideoConfig } from "remotion";
 import { useTheme } from "../lib/themeContext";
 
 interface Props {}
 
 const PART1 = "Shaping Tomorrow";
 const SPACE = " ";
-const PART2 = "with AI Today";
+const PART2 = "with AI Today™";
 const TOTAL = PART1.length + SPACE.length + PART2.length;
 
 const START      = 15;
@@ -64,7 +64,7 @@ export const TaglineStinger: React.FC<Props> = () => {
 
       {Array.from({ length: TOTAL }, (_, i) => (
         <Sequence key={i} from={START + i * SPEED} durationInFrames={SPEED + 3}>
-          <Audio src={staticFile("keyboard-click.mp3")} volume={0.6} />
+          <Audio src="/keyboard-click.mp3" volume={1} />
         </Sequence>
       ))}
 

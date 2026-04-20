@@ -20,6 +20,22 @@ const COMPOSITIONS: {
   propDefs: { key: string; type: "string"; placeholder: string; default: string }[];
 }[] = [
   {
+    name: "LogoStinger",
+    description: "Xebia logo animated intro with optional tagline",
+    component: LogoStinger as unknown as ComponentType<Record<string, unknown>>,
+    durationInFrames: 150,
+    fps: 30,
+    propDefs: [],
+  },
+  {
+    name: "TaglineStinger",
+    description: "Shaping Tomorrow with AI Today — gradient animated text",
+    component: TaglineStinger as unknown as ComponentType<Record<string, unknown>>,
+    durationInFrames: 240,
+    fps: 30,
+    propDefs: [],
+  },
+  {
     name: "TitleCard",
     description: "Full-screen title with optional subtitle",
     component: TitleCard as unknown as ComponentType<Record<string, unknown>>,
@@ -72,22 +88,6 @@ const COMPOSITIONS: {
       { key: "text",     type: "string", placeholder: "Lines separated by |", default: "Knowledge|that matters" },
       { key: "subtitle", type: "string", placeholder: "Subtitle (optional)",   default: "Xebia · 2025"          },
     ],
-  },
-  {
-    name: "LogoStinger",
-    description: "Xebia logo animated intro with optional tagline",
-    component: LogoStinger as unknown as ComponentType<Record<string, unknown>>,
-    durationInFrames: 150,
-    fps: 30,
-    propDefs: [],
-  },
-  {
-    name: "TaglineStinger",
-    description: "Shaping Tomorrow with AI Today — gradient animated text",
-    component: TaglineStinger as unknown as ComponentType<Record<string, unknown>>,
-    durationInFrames: 240,
-    fps: 30,
-    propDefs: [],
   },
 ];
 

@@ -6,7 +6,7 @@ interface Props extends Record<string, unknown> {}
 
 const PART1 = "Shaping Tomorrow";
 const SPACE = " ";
-const PART2 = "with AI Today";
+const PART2 = "with AI Today™";
 const TOTAL = PART1.length + SPACE.length + PART2.length; // 30
 
 const START  = 15;
@@ -67,7 +67,7 @@ export const TaglineStinger: React.FC<Props> = () => {
       {/* Keyboard click per character */}
       {Array.from({ length: TOTAL }, (_, i) => (
         <Sequence key={i} from={START + i * SPEED} durationInFrames={SPEED + 3}>
-          <Audio src={staticFile("keyboard-click.mp3")} volume={0.6} />
+          <Audio src={staticFile("keyboard-click.mp3")} volume={1} />
         </Sequence>
       ))}
 
